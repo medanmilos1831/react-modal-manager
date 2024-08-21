@@ -1,31 +1,25 @@
 import { RouterProvider } from 'react-router-dom';
-import { ModalClientProvider } from '../ModalClientProvider';
 import { router } from '../router';
 import { Modal } from 'antd';
+import { ModalManagerProvider } from 'src/ModalManagerProvider';
 
 const App = () => {
   return (
-    <ModalClientProvider
-      modal={({ open, Component, props, modalConfig, closeModal }) => {
-        return (
-          <Modal
-            open={open}
-            closable={true}
-            onCancel={() => {
-              closeModal();
-            }}
-            footer={null}
-            destroyOnClose={true}
-            width={1000}
-            {...modalConfig}
-          >
-            <Component {...props} />
-          </Modal>
-        );
-      }}
-    >
-      <RouterProvider router={router} />
-    </ModalClientProvider>
+    <>
+      <ModalManagerProvider
+        modalRender={({ manager }: any) => {
+          const { Component } = manager;
+          return (
+            <Modal open={manager.open}>
+              {/* <Component /> */}
+              {Component}
+            </Modal>
+          );
+        }}
+      >
+        <RouterProvider router={router} />
+      </ModalManagerProvider>
+    </>
   );
 };
 

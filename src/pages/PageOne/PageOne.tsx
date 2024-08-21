@@ -1,48 +1,28 @@
-import {
-  ExtendableProps,
-  ModalClientProvider,
-} from '../../ModalClientProvider';
-
-const Product = ({ price, closeModal }: ExtendableProps<{ price: number }>) => {
-  console.log('closeModal', closeModal);
-  console.log('price', price);
-  return (
-    <>
-      Product Modal
-      <button onClick={closeModal}>close modal</button>
-    </>
-  );
+import { ModalManagerHandler } from 'src/ModalManagerProvider';
+const Hello = () => {
+  console.log('renderrrrr');
+  return <>Hello</>;
 };
-
 const ProductsPage = () => {
+  console.log('ProductsPage render');
   return (
     <>
-      <ModalClientProvider.Modal />
-      <ModalClientProvider.ModalHandler>
-        {({ openModal, closeModal }) => {
+      <ModalManagerHandler
+        render={({ open }: any) => {
           return (
             <button
+              type="button"
               onClick={() => {
-                openModal(
-                  Product,
-                  {
-                    price: 100,
-                  },
-                  {
-                    width: 1000,
-                  }
-                );
+                open({
+                  Component: <Hello />,
+                });
               }}
             >
-              click me
+              open modal
             </button>
           );
         }}
-      </ModalClientProvider.ModalHandler>
-      <div>{/* some content */}</div>
-      <div>{/* some content */}</div>
-      <div>{/* some content */}</div>
-      <div>{/* some content */}</div>
+      ></ModalManagerHandler>
     </>
   );
 };
