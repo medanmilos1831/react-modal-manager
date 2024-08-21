@@ -1,14 +1,32 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
+import { RouterProvider } from 'react-router-dom';
+import { ModalClientProvider } from '../ModalClientProvider';
+import { router } from '../router';
+import { Modal } from 'antd';
 
-import NxWelcome from './nx-welcome';
-
-export function App() {
+const App = () => {
   return (
-    <div>
-      <NxWelcome title="react-modal-manager" />
-    </div>
+    <ModalClientProvider
+      modal={({ open, Component, props, modalConfig, closeModal }) => {
+        return (
+          <Modal
+            open={open}
+            closable={true}
+            onCancel={() => {
+              closeModal();
+            }}
+            footer={null}
+            destroyOnClose={true}
+            width={1000}
+            {...modalConfig}
+          >
+            <Component {...props} />
+          </Modal>
+        );
+      }}
+    >
+      <RouterProvider router={router} />
+    </ModalClientProvider>
   );
-}
+};
 
-export default App;
+export { App };
