@@ -1,13 +1,15 @@
 import { PropsWithChildren, useContext, useState } from 'react';
 import { ModalManagerContext } from './ModalManagerContext';
+import { IManager, IModalManagerHandler, IModalManagerProvider } from './types';
 
 const ModalManagerProvider = ({
   children,
   modalRender,
-}: PropsWithChildren<{ modalRender: any }>) => {
-  const [manager, setManager] = useState<any>({
+}: PropsWithChildren<IModalManagerProvider>) => {
+  const [manager, setManager] = useState<IManager>({
     open: false,
     Component: null,
+    modalConfig: {},
   });
   return (
     <ModalManagerContext.Provider
@@ -22,28 +24,41 @@ const ModalManagerProvider = ({
   );
 };
 
-const ModalManagerHandler = ({
+const ModalManagerHandler = <T extends {}>({
   render,
-}: {
-  render: (obj: {
-    open: (params: { Component: (props: any) => JSX.Element }) => void;
-  }) => JSX.Element;
-}) => {
-  const { setManager } = useContext(ModalManagerContext);
-  return (
-    <>
-      {render({
-        open: ({ Component }: any) =>
-          setManager((prev: any) => {
-            return {
-              ...prev,
-              open: true,
-              Component,
-            };
-          }),
-      })}
-    </>
-  );
+}: IModalManagerHandler<T>) => {
+  const obj = useModalManager<T>();
+  return <>{render(obj)}</>;
 };
 
-export { ModalManagerProvider, ModalManagerHandler };
+const useModalManager = <T extends {}>() => {
+  const ctx = useContext(ModalManagerContext)!;
+  return {
+    open: ({
+      Component,
+      modalConfig,
+    }: {
+      Component: JSX.Element | null;
+      modalConfig?: T;
+    }) =>
+      ctx.setManager((prev) => {
+        return {
+          ...prev,
+          open: true,
+          Component,
+          modalConfig,
+        };
+      }),
+    close: () => {
+      ctx.setManager((prev) => {
+        return {
+          ...prev,
+          open: false,
+          Component: null,
+        };
+      });
+    },
+  };
+};
+
+export { ModalManagerProvider, ModalManagerHandler, useModalManager };

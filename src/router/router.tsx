@@ -6,10 +6,6 @@ const router = createBrowserRouter([
     path: '/',
     element: <ProductsPage />,
   },
-  {
-    path: '/pageTwo',
-    element: <PageTwo />,
-  },
 ]);
 
 export { router };
