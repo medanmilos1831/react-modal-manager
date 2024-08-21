@@ -1,8 +1,8 @@
-import { Modal, ModalProps } from 'antd';
+import { Modal, ModalProps } from '@mui/material';
 import { ModalManager, ModalManagerProvider } from 'src/ModalManagerProvider';
 
-const Nesto = () => {
-  return <>Nesto</>;
+const ModalComponent = () => {
+  return <>ModalComponent</>;
 };
 
 const PageTwo = () => {
@@ -12,14 +12,14 @@ const PageTwo = () => {
       modalRender={({ manager }) => {
         return (
           <Modal open={manager.open} {...manager.modalConfig}>
-            {manager.Component}
+            <>{manager.Component}</>
           </Modal>
         );
       }}
     >
       <div>
         PageTwo
-        <ModalManager<ModalProps>>
+        <ModalManager<Omit<ModalProps, 'open' | 'children'>>>
           {({ open, close }) => {
             return (
               <button
@@ -28,9 +28,11 @@ const PageTwo = () => {
                   x = x + 1;
                   if (x === 3) {
                     open({
-                      Component: <Nesto />,
+                      Component: <ModalComponent />,
                       modalConfig: {
-                        footer: false,
+                        onClose() {
+                          close();
+                        },
                       },
                     });
                   }

@@ -5,8 +5,8 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { Modal, Space } from 'antd';
-import { ModalManagerProvider } from 'src/ModalManagerProvider';
-import { PageTwo, ProductsPage } from 'src/pages';
+import { PageTwo, PageOne } from 'src/pages';
+import { PageThree } from 'src/pages/PageThree';
 
 export const router = () =>
   createBrowserRouter([
@@ -27,6 +27,7 @@ export const router = () =>
             <Space>
               <Link to={'/'}>One</Link>
               <Link to={'/two'}>Two</Link>
+              <Link to={'/three'}>Three</Link>
             </Space>
           </div>
           <div>
@@ -37,11 +38,15 @@ export const router = () =>
       children: [
         {
           index: true,
-          element: <ProductsPage />,
+          element: <PageOne />,
         },
         {
           path: '/two',
           element: <PageTwo />,
+        },
+        {
+          path: '/three',
+          element: <PageThree />,
         },
       ],
     },
@@ -50,17 +55,7 @@ export const router = () =>
 const App = () => {
   return (
     <>
-      {/* <ModalManagerProvider
-        modalRender={({ manager }) => {
-          return (
-            <Modal open={manager.open} {...manager.modalConfig}>
-              {manager.Component}
-            </Modal>
-          );
-        }}
-      > */}
       <RouterProvider router={router()} />
-      {/* </ModalManagerProvider> */}
     </>
   );
 };

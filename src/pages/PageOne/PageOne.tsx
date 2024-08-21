@@ -13,7 +13,7 @@ const World = () => {
   console.log('render World');
   return <>World</>;
 };
-const ProductsPage = () => {
+const PageOne = () => {
   console.log('render PAGE');
   return (
     <>
@@ -77,4 +77,4 @@ const ProductsPage = () => {
   );
 };
 
-export { ProductsPage };
+export { PageOne };
