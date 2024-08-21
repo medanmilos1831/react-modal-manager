@@ -1,6 +1,11 @@
 import { PropsWithChildren, useContext, useState } from 'react';
 import { ModalManagerContext } from './ModalManagerContext';
-import { IManager, IModalManagerHandler, IModalManagerProvider } from './types';
+import {
+  IManager,
+  IModalManagerHandler,
+  IModalManagerProvider,
+  modalManagerHanderParam,
+} from './types';
 
 const ModalManagerProvider = ({
   children,
@@ -40,7 +45,7 @@ const useModalManager = <T extends {}>() => {
     }: {
       Component: JSX.Element | null;
       modalConfig?: T;
-    }) =>
+    }) => {
       ctx.setManager((prev) => {
         return {
           ...prev,
@@ -48,7 +53,8 @@ const useModalManager = <T extends {}>() => {
           Component,
           modalConfig,
         };
-      }),
+      });
+    },
     close: () => {
       ctx.setManager((prev) => {
         return {
@@ -61,4 +67,18 @@ const useModalManager = <T extends {}>() => {
   };
 };
 
-export { ModalManagerProvider, ModalManagerHandler, useModalManager };
+const ModalManager = <T extends {}>({
+  children,
+}: {
+  children: (obj: modalManagerHanderParam<T>) => JSX.Element;
+}) => {
+  const ctx = useModalManager<T>();
+  return <>{children(ctx)}</>;
+};
+
+export {
+  ModalManagerProvider,
+  ModalManagerHandler,
+  useModalManager,
+  ModalManager,
+};
