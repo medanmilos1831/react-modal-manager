@@ -1,11 +1,9 @@
-import { Modal, ModalProps } from 'antd';
-import {
-  ModalManagerHandler,
-  ModalManagerProvider,
-} from 'src/ModalManagerProvider';
+import { ModalProps } from 'antd';
+import { useLocation } from 'react-router-dom';
+import { useModal } from 'src/ModalManagerProvider';
 
-const Hello = () => {
-  console.log('render Hello');
+const Hello = (props: any) => {
+  const location = useLocation();
   return <>Hello</>;
 };
 
@@ -14,66 +12,28 @@ const World = () => {
   return <>World</>;
 };
 const PageOne = () => {
-  console.log('render PAGE');
-  return (
-    <>
-      <ModalManagerProvider
-        modalRender={({ manager }) => {
-          return (
-            <Modal open={manager.open} {...manager.modalConfig}>
-              {manager.Component}
-            </Modal>
-          );
-        }}
-      >
-        <ModalManagerHandler<ModalProps>
-          render={({ open, close }) => {
-            return (
-              <button
-                type="button"
-                onClick={() => {
-                  open({
-                    Component: <Hello />,
-                    modalConfig: {
-                      width: 100,
-                      footer: () => <>pera</>,
-                      onCancel(e) {
-                        close();
-                      },
-                    },
-                  });
-                }}
-              >
-                open modal helloo modal
-              </button>
-            );
-          }}
-        ></ModalManagerHandler>
+  console.log('render');
+  const { openModal, closeModal } = useModal();
+  const modalOne = () => {
+    openModal<ModalProps>(<Hello fname="milos" />, {
+      footer: null,
+      onCancel: closeModal,
+      width: 100,
+    });
+  };
 
-        <ModalManagerHandler<ModalProps>
-          render={({ open, close }) => {
-            return (
-              <button
-                type="button"
-                onClick={() => {
-                  open({
-                    Component: <World />,
-                    modalConfig: {
-                      width: 700,
-                      onCancel(e) {
-                        close();
-                      },
-                    },
-                  });
-                }}
-              >
-                open modal World modal
-              </button>
-            );
-          }}
-        ></ModalManagerHandler>
-      </ModalManagerProvider>
-    </>
+  const modalTwo = () => {
+    openModal<ModalProps>(<Hello fname="milos" />, {
+      footer: null,
+      onCancel: closeModal,
+      width: 700,
+    });
+  };
+  return (
+    <div>
+      <button onClick={modalOne}>m1</button>
+      <button onClick={modalTwo}>m2</button>
+    </div>
   );
 };
 

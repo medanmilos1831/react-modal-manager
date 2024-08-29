@@ -1,6 +1,1 @@
-export {
-  ModalManagerProvider,
-  ModalManagerHandler,
-  useModalManager,
-  ModalManager,
-} from './ModalManagerProvider';
+export { ModalProvider, useModal } from './ModalProvider';

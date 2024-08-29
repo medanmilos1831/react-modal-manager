@@ -1,8 +1,4 @@
-import { Button, Form, Input, Modal } from 'antd';
-import {
-  ModalManagerProvider,
-  useModalManager,
-} from 'src/ModalManagerProvider';
+import { Button, Form, Input } from 'antd';
 
 const ModalComponent = ({ values }: any) => {
   console.log('values', values);
@@ -10,10 +6,9 @@ const ModalComponent = ({ values }: any) => {
 };
 
 const SomeComponent = () => {
-  const { open, close } = useModalManager();
   return (
     <>
-      <Form
+      {/* <Form
         onFinish={(values) => {
           open({
             Component: <ModalComponent values={values} />,
@@ -29,24 +24,25 @@ const SomeComponent = () => {
           <Input placeholder="first name" />
         </Form.Item>
         <Button htmlType="submit">Submit</Button>
-      </Form>
+      </Form> */}
     </>
   );
 };
 
 const PageThree = () => {
   return (
-    <ModalManagerProvider
-      modalRender={({ manager }) => {
-        return (
-          <Modal open={manager.open} {...manager.modalConfig}>
-            <>{manager.Component}</>
-          </Modal>
-        );
-      }}
-    >
-      <SomeComponent />
-    </ModalManagerProvider>
+    <></>
+    // <ModalManagerProvider
+    //   modalRender={({ manager }) => {
+    //     return (
+    //       <Modal open={manager.open} {...manager.modalConfig}>
+    //         <>{manager.Component}</>
+    //       </Modal>
+    //     );
+    //   }}
+    // >
+    //   <SomeComponent />
+    // </ModalManagerProvider>
   );
 };
 
