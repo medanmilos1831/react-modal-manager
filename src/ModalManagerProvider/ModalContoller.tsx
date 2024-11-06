@@ -1,24 +1,24 @@
-import { ReactNode, useContext, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { ModalContext } from './ModalContext';
-import { IModalService } from './types';
 
 const ModalContoller = ({
   children,
 }: {
-  children: (
-    open: boolean,
-    modalElement: IModalService['modalElement'],
-    config: unknown
-  ) => ReactNode;
+  children: (open: boolean) => ReactNode;
 }) => {
   const [open, setOpen] = useState(false);
-  const context = useContext(ModalContext)!;
+  const { setConfig, setHandler } = useContext(ModalContext)!;
   const init = useRef(false);
   if (init.current === false) {
-    context.setHandler(setOpen);
+    setHandler(setOpen);
     init.current = true;
   }
-  return <>{children(open, context.modalElement, context.config)}</>;
+  useEffect(() => {
+    if (open === false) {
+      setConfig(null);
+    }
+  }, [open]);
+  return <>{children(open)}</>;
 };
 
 export { ModalContoller };

@@ -2,10 +2,11 @@ import { PropsWithChildren, useContext, useState } from 'react';
 import { ModalContext } from './ModalContext';
 import { ModalContoller } from './ModalContoller';
 import { ModalService } from './ModalService';
-const ModalProvider = ({
+import { modalRenderType } from './types';
+function ModalProvider<C = any>({
   children,
   ModalRender,
-}: PropsWithChildren<{ ModalRender: any }>) => {
+}: PropsWithChildren<{ ModalRender: modalRenderType<C> }>) {
   const [service, _] = useState(init);
   function init() {
     return new ModalService();
@@ -15,14 +16,14 @@ const ModalProvider = ({
       <ModalContext.Provider value={service}>
         <>
           <ModalContoller>
-            {(open, Element, config) => {
+            {(open) => {
               return (
                 <>
                   {children}
                   <ModalRender
-                    config={config}
+                    config={service.config ? service.config : {}}
                     open={open}
-                    Element={() => Element}
+                    Element={() => service.modalElement}
                   />
                 </>
               );
@@ -32,7 +33,7 @@ const ModalProvider = ({
       </ModalContext.Provider>
     </div>
   );
-};
+}
 const useModal = () => {
   const { open, close } = useContext(ModalContext)!;
   return {

@@ -3,7 +3,7 @@ import { handlerType, IModalService, modalElementType } from './types';
 export class ModalService implements IModalService {
   handler: handlerType | undefined = undefined;
   modalElement: modalElementType = null;
-  config: unknown | null = null;
+  config: any = null;
 
   setHandler = (handler: handlerType) => {
     this.handler = handler;
@@ -15,8 +15,9 @@ export class ModalService implements IModalService {
     this.handler!(true);
   };
   close = () => {
-    this.config = null;
-    this.modalElement = null;
     this.handler!(false);
+  };
+  setConfig = (config: unknown) => {
+    this.config = config;
   };
 }

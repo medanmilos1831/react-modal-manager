@@ -1,11 +1,10 @@
-import { Modal } from 'antd';
+import { Modal, ModalProps } from 'antd';
 import { ModalProvider } from '../ModalManagerProvider';
 import { HomePage } from '../pages/HomePage';
 const App = () => {
   return (
-    <ModalProvider
-      ModalRender={({ open, Element, config }: any) => {
-        console.log('ssssss', config);
+    <ModalProvider<ModalProps>
+      ModalRender={({ open, Element, config }) => {
         return (
           <Modal open={open} {...config}>
             <Element />

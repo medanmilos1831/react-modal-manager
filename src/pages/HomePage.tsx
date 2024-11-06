@@ -16,10 +16,24 @@ const HomePage = () => {
             onCancel(e) {
               close();
             },
+            width: 700,
           });
         }}
       >
-        click me o
+        click me o 700
+      </button>
+      <button
+        onClick={() => {
+          open<ModalProps>(<ModalElement />, {
+            closable: true,
+            onCancel(e) {
+              close();
+            },
+            width: 200,
+          });
+        }}
+      >
+        click me o 500
       </button>
 
       <button
