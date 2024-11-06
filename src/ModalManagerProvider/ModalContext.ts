@@ -1,4 +1,4 @@
 import { createContext } from 'react';
-import { ModalService } from './ModalService';
+import { IModalService } from './types';
 
-export const ModalContext = createContext<ModalService | undefined>(undefined);
+export const ModalContext = createContext<IModalService | undefined>(undefined);
