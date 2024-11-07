@@ -10,7 +10,6 @@ export class ModalService implements IModalService {
   handler: handlerType | undefined = undefined;
   modalElement: modalElementType = null;
   config: any = null;
-  // overlays: any = undefined;
   overlaysMap: overlayMapType = {};
 
   constructor(overlays: IOverlay[]) {
@@ -26,7 +25,7 @@ export class ModalService implements IModalService {
     this.handler = handler;
   };
 
-  open = <T = unknown>(
+  open = <T = any>(
     elementName: string,
     overlayElement: modalElementType,
     config?: T

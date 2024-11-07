@@ -5,10 +5,13 @@ export interface IModalService {
   modalElement: modalElementType;
   config: any;
   setHandler(handler: handlerType): void;
-  // open<T = unknown>(component: modalElementType, config?: T): void;
-  open: any;
-  // close(): void;
-  close: any;
+  open<T = unknown>(
+    overlayName: string,
+    component: modalElementType,
+    config?: T
+  ): void;
+  // open: any;
+  close(overlayName: string): void;
   overlaysMap: any;
 }
 
@@ -20,18 +23,12 @@ export type handlerType = React.Dispatch<
   }>
 >;
 
-export type modalRenderType<C = any> = (obj: {
-  open: boolean;
-  Element: () => modalElementType;
-  config: C;
-}) => ReactNode;
-
-export interface IOverlay {
+export interface IOverlay<T = any> {
   overlayName: string;
-  OverlayElement: (obj: {
+  Overlay: (obj: {
     open: boolean;
     Element: () => modalElementType;
-    config: any;
+    config: T;
   }) => ReactNode;
 }
 

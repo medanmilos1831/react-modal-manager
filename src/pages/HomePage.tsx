@@ -14,7 +14,6 @@ const HomePage = () => {
           open('modal', <ModalElement />, {
             closable: true,
             onCancel(e: any) {
-              console.log('eee');
               close('modal');
             },
             width: 700,
@@ -25,7 +24,7 @@ const HomePage = () => {
       </button>
       <button
         onClick={() => {
-          open('modal', <ModalElement />, {
+          open<ModalProps>('modal', <ModalElement />, {
             closable: true,
             onCancel(e: any) {
               close('modal');
@@ -39,7 +38,7 @@ const HomePage = () => {
 
       <button
         onClick={() => {
-          close();
+          close('modal');
         }}
       >
         click me c
