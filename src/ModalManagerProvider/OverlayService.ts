@@ -15,6 +15,7 @@ export class OverlayService implements IOverlayService {
       this.overlaysMap[overlayName] = {
         overlayElement: null,
         config: null,
+        visible: false,
       };
     });
   }
@@ -23,26 +24,28 @@ export class OverlayService implements IOverlayService {
     this.handler = handler;
   };
 
+  updateUI() {
+    this.handler!((prev) => prev + 1);
+  }
+
   open = <T = any>(
     elementName: string,
     overlayElement: modalElementType,
     config?: T
   ) => {
-    this.overlaysMap[elementName].overlayElement = overlayElement;
-    this.overlaysMap[elementName].config = config ? config : null;
-    this.handler!((prev: any) => {
-      return {
-        ...prev,
-        [elementName]: true,
-      };
-    });
+    this.overlaysMap = {
+      ...this.overlaysMap,
+      [elementName]: {
+        overlayElement,
+        config: config || null,
+        visible: true,
+      },
+    };
+    this.updateUI();
   };
   close = (elementName: string) => {
-    this.handler!((prev: any) => {
-      return {
-        ...prev,
-        [elementName]: false,
-      };
-    });
+    this.overlaysMap[elementName].visible = false;
+    this.handler!((prev) => prev + 1);
+    this.updateUI();
   };
 }

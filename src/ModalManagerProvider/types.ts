@@ -14,11 +14,7 @@ export interface IOverlayService {
 
 export type modalElementType = ReactNode | null;
 
-export type handlerType = React.Dispatch<
-  React.SetStateAction<{
-    [key: string]: boolean;
-  }>
->;
+export type handlerType = React.Dispatch<React.SetStateAction<number>>;
 
 export interface IOverlay<T = unknown> {
   overlayName: string;
@@ -33,5 +29,6 @@ export type overlayMapType = {
   [key: string]: {
     overlayElement: ReactNode | null;
     config: unknown;
+    visible: boolean;
   };
 };

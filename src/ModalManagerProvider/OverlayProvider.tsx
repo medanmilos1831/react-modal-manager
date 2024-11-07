@@ -1,5 +1,5 @@
 import { PropsWithChildren, useContext, useState } from 'react';
-import { OverlayHandler } from './OverlayHandler';
+import { UIHandler } from './UIHandler';
 import { OverlayContext } from './OverlayContext';
 import { OverlayService } from './OverlayService';
 import { IOverlay } from './types';
@@ -17,26 +17,26 @@ function OverlayProvider<T extends IOverlay<any>[]>({
     <div>
       <OverlayContext.Provider value={service}>
         <>
-          <OverlayHandler>
-            {(open) => {
+          <UIHandler>
+            {() => {
               const { overlaysMap } = service;
-              console.log('OPNE', open);
               return (
                 <>
                   {children}
                   {overlays.map(({ overlayName, Overlay }) => {
+                    const item = overlaysMap[overlayName];
                     return (
                       <Overlay
-                        config={overlaysMap[overlayName].config || {}}
-                        open={open[overlayName]}
-                        Element={() => overlaysMap[overlayName].overlayElement}
+                        config={item.config || {}}
+                        open={item.visible}
+                        Element={() => item.overlayElement}
                       />
                     );
                   })}
                 </>
               );
             }}
-          </OverlayHandler>
+          </UIHandler>
         </>
       </OverlayContext.Provider>
     </div>
