@@ -1,11 +1,11 @@
 import { ModalProps } from 'antd';
-import { useModal } from '../ModalManagerProvider';
+import { useOverlay } from '../ModalManagerProvider';
 const ModalElement = () => {
   return <>Element</>;
 };
 const HomePage = () => {
   console.log('RENDER HOME PAGE');
-  const { open, close } = useModal();
+  const { open, close } = useOverlay();
   return (
     <div>
       <span>Home page</span>

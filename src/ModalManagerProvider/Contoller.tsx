@@ -1,8 +1,8 @@
-import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
-import { ModalContext } from './ModalContext';
+import { ReactNode, useContext, useRef, useState } from 'react';
+import { OverlayContext } from './OverlayContext';
 
 const Contoller = ({ children }: { children: (open: any) => ReactNode }) => {
-  const { setHandler, ...rest } = useContext(ModalContext)!;
+  const { setHandler, ...rest } = useContext(OverlayContext)!;
   const [open, setOpen] = useState(function () {
     let map: { [key: string]: boolean } = {};
     Object.keys(rest.overlaysMap).forEach((overlayName) => {
@@ -16,12 +16,6 @@ const Contoller = ({ children }: { children: (open: any) => ReactNode }) => {
     setHandler(setOpen);
     init.current = true;
   }
-  useEffect(() => {
-    console.log('OPEEENNNNN', open);
-    // if (open === false) {
-    //   setConfig(null);
-    // }
-  }, [open]);
   return <>{children(open)}</>;
 };
 

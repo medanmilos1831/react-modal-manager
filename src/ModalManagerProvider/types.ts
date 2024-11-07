@@ -1,18 +1,17 @@
 import { ReactNode } from 'react';
 
-export interface IModalService {
-  handler: any;
+export interface IOverlayService {
+  handler: handlerType | undefined;
   modalElement: modalElementType;
-  config: any;
+  config: unknown;
   setHandler(handler: handlerType): void;
   open<T = unknown>(
     overlayName: string,
     component: modalElementType,
     config?: T
   ): void;
-  // open: any;
   close(overlayName: string): void;
-  overlaysMap: any;
+  overlaysMap: overlayMapType;
 }
 
 export type modalElementType = ReactNode | null;
@@ -23,7 +22,7 @@ export type handlerType = React.Dispatch<
   }>
 >;
 
-export interface IOverlay<T = any> {
+export interface IOverlay<T = unknown> {
   overlayName: string;
   Overlay: (obj: {
     open: boolean;
@@ -35,6 +34,6 @@ export interface IOverlay<T = any> {
 export type overlayMapType = {
   [key: string]: {
     overlayElement: ReactNode | null;
-    config: any;
+    config: unknown;
   };
 };

@@ -1,10 +1,10 @@
 import { Drawer, DrawerProps, Modal, ModalProps } from 'antd';
-import { ModalProvider } from '../ModalManagerProvider';
+import { OverlayProvider } from '../ModalManagerProvider';
 import { HomePage } from '../pages/HomePage';
 import { IOverlay } from '../ModalManagerProvider/types';
 const App = () => {
   return (
-    <ModalProvider<[IOverlay<ModalProps>, IOverlay<DrawerProps>]>
+    <OverlayProvider<[IOverlay<ModalProps>, IOverlay<DrawerProps>]>
       overlays={[
         {
           overlayName: 'modal',
@@ -31,7 +31,7 @@ const App = () => {
       <div>
         <HomePage />
       </div>
-    </ModalProvider>
+    </OverlayProvider>
   );
 };
 

@@ -1,9 +1,9 @@
 import { PropsWithChildren, useContext, useState } from 'react';
 import { Contoller } from './Contoller';
-import { ModalContext } from './ModalContext';
-import { ModalService } from './ModalService';
+import { OverlayContext } from './OverlayContext';
+import { OverlayService } from './OverlayService';
 import { IOverlay } from './types';
-function ModalProvider<T extends IOverlay<any>[] | any[]>({
+function OverlayProvider<T extends IOverlay<any>[] | any[]>({
   children,
   overlays,
 }: PropsWithChildren<{
@@ -11,11 +11,11 @@ function ModalProvider<T extends IOverlay<any>[] | any[]>({
 }>) {
   const [service, _] = useState(init);
   function init() {
-    return new ModalService(overlays);
+    return new OverlayService(overlays);
   }
   return (
     <div>
-      <ModalContext.Provider value={service}>
+      <OverlayContext.Provider value={service}>
         <>
           <Contoller>
             {(open) => {
@@ -37,16 +37,16 @@ function ModalProvider<T extends IOverlay<any>[] | any[]>({
             }}
           </Contoller>
         </>
-      </ModalContext.Provider>
+      </OverlayContext.Provider>
     </div>
   );
 }
-const useModal = () => {
-  const { open, close } = useContext(ModalContext)!;
+const useOverlay = () => {
+  const { open, close } = useContext(OverlayContext)!;
   return {
     open,
     close,
   };
 };
 
-export { ModalProvider, useModal };
+export { OverlayProvider, useOverlay };
