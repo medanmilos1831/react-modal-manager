@@ -2,8 +2,6 @@ import { ReactNode } from 'react';
 
 export interface IOverlayService {
   handler: handlerType | undefined;
-  modalElement: modalElementType;
-  config: unknown;
   setHandler(handler: handlerType): void;
   open<T = unknown>(
     overlayName: string,

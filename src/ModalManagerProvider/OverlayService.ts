@@ -8,8 +8,6 @@ import {
 
 export class OverlayService implements IOverlayService {
   handler: handlerType | undefined = undefined;
-  modalElement: modalElementType = null;
-  config: any = null;
   overlaysMap: overlayMapType = {};
 
   constructor(overlays: IOverlay[]) {

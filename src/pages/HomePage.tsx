@@ -4,7 +4,6 @@ const ModalElement = ({ fname }: { fname: string }) => {
   return <>Element</>;
 };
 const HomePage = () => {
-  console.log('RENDER HOME PAGE');
   const { open, close } = useOverlay();
   return (
     <div>
