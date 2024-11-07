@@ -1,4 +1,4 @@
-import { Modal, ModalProps } from 'antd';
+import { Drawer, Modal, ModalProps } from 'antd';
 import { ModalProvider } from '../ModalManagerProvider';
 import { HomePage } from '../pages/HomePage';
 const App = () => {
@@ -11,6 +11,30 @@ const App = () => {
           </Modal>
         );
       }}
+      overlays={[
+        {
+          elementName: 'modal',
+          ModalRender: ({ open, Element, config }: any) => {
+            console.log('config', config);
+            return (
+              <Modal open={open} {...config}>
+                <Element />
+              </Modal>
+            );
+          },
+        },
+        {
+          elementName: 'drawer',
+          ModalRender: ({ open, Element, config }: any) => {
+            console.log('config', config);
+            return (
+              <Drawer open={open} {...config}>
+                <Element />
+              </Drawer>
+            );
+          },
+        },
+      ]}
     >
       <div>
         <HomePage />

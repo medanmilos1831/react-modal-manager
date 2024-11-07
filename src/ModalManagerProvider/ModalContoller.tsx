@@ -7,7 +7,7 @@ const ModalContoller = ({
   children: (open: boolean) => ReactNode;
 }) => {
   const [open, setOpen] = useState(false);
-  const { setConfig, setHandler } = useContext(ModalContext)!;
+  const { setHandler } = useContext(ModalContext)!;
   const init = useRef(false);
   if (init.current === false) {
     setHandler(setOpen);
@@ -15,7 +15,7 @@ const ModalContoller = ({
   }
   useEffect(() => {
     if (open === false) {
-      setConfig(null);
+      // setConfig(null);
     }
   }, [open]);
   return <>{children(open)}</>;

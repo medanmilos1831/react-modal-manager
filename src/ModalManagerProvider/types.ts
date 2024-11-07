@@ -1,13 +1,15 @@
 import { ReactNode } from 'react';
 
 export interface IModalService {
-  handler: handlerType | undefined;
+  handler: any;
   modalElement: modalElementType;
   config: any;
   setHandler(handler: handlerType): void;
-  open<T = unknown>(component: modalElementType, config?: T): void;
-  close(): void;
-  setConfig(config: unknown): void;
+  // open<T = unknown>(component: modalElementType, config?: T): void;
+  open: any;
+  // close(): void;
+  close: any;
+  overlays: any[];
 }
 
 export type modalElementType = ReactNode | null;

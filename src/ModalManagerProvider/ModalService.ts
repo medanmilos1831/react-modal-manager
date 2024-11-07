@@ -4,20 +4,43 @@ export class ModalService implements IModalService {
   handler: handlerType | undefined = undefined;
   modalElement: modalElementType = null;
   config: any = null;
+  overlays: any = undefined;
+  elementsService: any = {};
+
+  constructor(overlays: any) {
+    this.overlays = overlays;
+    this.overlays.forEach((i: any) => {
+      this.elementsService[i.elementName] = {
+        modalElement: null,
+        config: null,
+      };
+    });
+  }
 
   setHandler = (handler: handlerType) => {
     this.handler = handler;
   };
 
-  open = <T = unknown>(modalElement: modalElementType, config?: T) => {
-    this.modalElement = modalElement;
-    this.config = config ? config : null;
-    this.handler!(true);
+  open = <T = unknown>(
+    elementName: string,
+    modalElement: modalElementType,
+    config?: T
+  ) => {
+    this.elementsService[elementName].modalElement = modalElement;
+    this.elementsService[elementName].config = config ? config : null;
+    this.handler!((prev: any) => {
+      return {
+        ...prev,
+        [elementName]: true,
+      };
+    });
   };
-  close = () => {
-    this.handler!(false);
-  };
-  setConfig = (config: unknown) => {
-    this.config = config;
+  close = (elementName: string) => {
+    this.handler!((prev: any) => {
+      return {
+        ...prev,
+        [elementName]: false,
+      };
+    });
   };
 }

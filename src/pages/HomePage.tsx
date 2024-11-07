@@ -11,10 +11,11 @@ const HomePage = () => {
       <span>Home page</span>
       <button
         onClick={() => {
-          open<ModalProps>(<ModalElement />, {
+          open('modal', <ModalElement />, {
             closable: true,
-            onCancel(e) {
-              close();
+            onCancel(e: any) {
+              console.log('eee');
+              close('modal');
             },
             width: 700,
           });
@@ -24,10 +25,10 @@ const HomePage = () => {
       </button>
       <button
         onClick={() => {
-          open<ModalProps>(<ModalElement />, {
+          open('modal', <ModalElement />, {
             closable: true,
-            onCancel(e) {
-              close();
+            onCancel(e: any) {
+              close('modal');
             },
             width: 200,
           });
