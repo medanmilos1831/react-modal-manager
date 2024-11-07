@@ -17,12 +17,12 @@ function OverlayProvider<T extends IOverlay<any>[]>({
     <div>
       <OverlayContext.Provider value={service}>
         <>
+          {children}
           <UIHandler>
             {() => {
               const { overlaysMap } = service;
               return (
                 <>
-                  {children}
                   {overlays.map(({ overlayName, Overlay }) => {
                     const item = overlaysMap[overlayName];
                     return (
