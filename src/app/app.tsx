@@ -9,6 +9,7 @@ const App = () => {
         {
           overlayName: 'modal',
           Overlay: ({ open, Element, config }) => {
+            // console.log('modal');
             return (
               <Modal open={open} {...config}>
                 <Element />
@@ -19,6 +20,7 @@ const App = () => {
         {
           overlayName: 'drawer',
           Overlay: ({ open, Element, config }) => {
+            // console.log('drawer');
             return (
               <Drawer open={open} {...config}>
                 <Element />

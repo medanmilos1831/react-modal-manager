@@ -9,6 +9,8 @@ import {
 export class OverlayService implements IOverlayService {
   handler: handlerType | undefined = undefined;
   overlaysMap: overlayMapType = {};
+  uiHandlersMap = new Map();
+  active = null;
 
   constructor(overlays: IOverlay[]) {
     overlays.forEach(({ overlayName }) => {
@@ -20,12 +22,14 @@ export class OverlayService implements IOverlayService {
     });
   }
 
-  setHandler = (handler: handlerType) => {
-    this.handler = handler;
+  setHandler = (handler: handlerType, overlayName: string) => {
+    this.uiHandlersMap.set(overlayName, () => {
+      handler((prev) => ++prev);
+    });
   };
 
-  updateUI() {
-    this.handler!((prev) => prev + 1);
+  updateUI(elementName: string) {
+    this.uiHandlersMap.get(elementName)();
   }
 
   open = <T = any>(
@@ -41,11 +45,10 @@ export class OverlayService implements IOverlayService {
         visible: true,
       },
     };
-    this.updateUI();
+    this.updateUI(elementName);
   };
   close = (elementName: string) => {
     this.overlaysMap[elementName].visible = false;
-    this.handler!((prev) => prev + 1);
-    this.updateUI();
+    this.updateUI(elementName);
   };
 }

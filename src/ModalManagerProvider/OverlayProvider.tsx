@@ -18,13 +18,12 @@ function OverlayProvider<T extends IOverlay<any>[]>({
       <OverlayContext.Provider value={service}>
         <>
           {children}
-          <UIHandler>
-            {() => {
-              const { overlaysMap } = service;
+          <>
+            {overlays.map(({ overlayName, Overlay }) => {
               return (
-                <>
-                  {overlays.map(({ overlayName, Overlay }) => {
-                    const item = overlaysMap[overlayName];
+                <UIHandler overlayName={overlayName}>
+                  {() => {
+                    let item = service.overlaysMap[overlayName];
                     return (
                       <Overlay
                         config={item.config || {}}
@@ -32,11 +31,11 @@ function OverlayProvider<T extends IOverlay<any>[]>({
                         Element={() => item.overlayElement}
                       />
                     );
-                  })}
-                </>
+                  }}
+                </UIHandler>
               );
-            }}
-          </UIHandler>
+            })}
+          </>
         </>
       </OverlayContext.Provider>
     </div>

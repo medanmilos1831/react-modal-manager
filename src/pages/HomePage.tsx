@@ -1,4 +1,4 @@
-import { ModalProps } from 'antd';
+import { DrawerProps, ModalProps } from 'antd';
 import { useOverlay } from '../ModalManagerProvider';
 const ModalElement = ({ fname }: { fname: string }) => {
   return <>Element</>;
@@ -33,6 +33,16 @@ const HomePage = () => {
         }}
       >
         click me o 500
+      </button>
+      <button
+        onClick={() => {
+          open<DrawerProps>('drawer', <ModalElement fname="Pera" />, {
+            closable: true,
+            width: 200,
+          });
+        }}
+      >
+        drawer
       </button>
 
       <button

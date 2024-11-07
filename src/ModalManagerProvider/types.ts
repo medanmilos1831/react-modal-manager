@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export interface IOverlayService {
   handler: handlerType | undefined;
-  setHandler(handler: handlerType): void;
+  setHandler(handler: handlerType, overlayName: string): void;
   open<T = unknown>(
     overlayName: string,
     component: modalElementType,
@@ -10,6 +10,7 @@ export interface IOverlayService {
   ): void;
   close(overlayName: string): void;
   overlaysMap: overlayMapType;
+  active: string | null;
 }
 
 export type modalElementType = ReactNode | null;
