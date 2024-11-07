@@ -3,14 +3,14 @@ import { ModalContext } from './ModalContext';
 
 const Contoller = ({ children }: { children: (open: any) => ReactNode }) => {
   const { setHandler, ...rest } = useContext(ModalContext)!;
-  const [open, setOpen] = useState(i);
-  function i() {
-    let r: any = {};
-    rest.overlays.forEach((i: any) => {
-      r[i.elementName] = false;
+  const [open, setOpen] = useState(function () {
+    let map: { [key: string]: boolean } = {};
+    Object.keys(rest.overlaysMap).forEach((overlayName) => {
+      map[overlayName] = false;
     });
-    return r;
-  }
+    return map;
+  });
+
   const init = useRef(false);
   if (init.current === false) {
     setHandler(setOpen);

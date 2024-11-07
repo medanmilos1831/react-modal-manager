@@ -2,12 +2,15 @@ import { PropsWithChildren, useContext, useState } from 'react';
 import { Contoller } from './Contoller';
 import { ModalContext } from './ModalContext';
 import { ModalService } from './ModalService';
-import { modalRenderType } from './types';
+import { IOverlay, modalRenderType } from './types';
 function ModalProvider<C = any>({
   children,
   ModalRender,
   overlays,
-}: PropsWithChildren<{ ModalRender: modalRenderType<C>; overlays: any[] }>) {
+}: PropsWithChildren<{
+  ModalRender: modalRenderType<C>;
+  overlays: IOverlay[];
+}>) {
   const [service, _] = useState(init);
   function init() {
     return new ModalService(overlays);
@@ -21,27 +24,21 @@ function ModalProvider<C = any>({
               return (
                 <>
                   {children}
-                  {service.overlays.map(({ elementName, ModalRender }: any) => {
-                    console.log('service', service);
+                  {overlays.map(({ overlayName, OverlayElement }) => {
                     return (
-                      <ModalRender
+                      <OverlayElement
                         config={
-                          service.elementsService[elementName].config
-                            ? service.elementsService[elementName].config
+                          service.overlaysMap[overlayName].config
+                            ? service.overlaysMap[overlayName].config
                             : {}
                         }
-                        open={open[elementName]}
+                        open={open[overlayName]}
                         Element={() =>
-                          service.elementsService[elementName].modalElement
+                          service.overlaysMap[overlayName].overlayElement
                         }
                       />
                     );
                   })}
-                  {/* <ModalRender
-                    config={service.config ? service.config : {}}
-                    open={open}
-                    Element={() => service.modalElement}
-                  /> */}
                 </>
               );
             }}

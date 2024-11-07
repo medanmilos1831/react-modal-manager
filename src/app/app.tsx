@@ -13,9 +13,8 @@ const App = () => {
       }}
       overlays={[
         {
-          elementName: 'modal',
-          ModalRender: ({ open, Element, config }: any) => {
-            console.log('config', config);
+          overlayName: 'modal',
+          OverlayElement: ({ open, Element, config }: any) => {
             return (
               <Modal open={open} {...config}>
                 <Element />
@@ -24,9 +23,8 @@ const App = () => {
           },
         },
         {
-          elementName: 'drawer',
-          ModalRender: ({ open, Element, config }: any) => {
-            console.log('config', config);
+          overlayName: 'drawer',
+          OverlayElement: ({ open, Element, config }: any) => {
             return (
               <Drawer open={open} {...config}>
                 <Element />

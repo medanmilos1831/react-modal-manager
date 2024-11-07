@@ -10,7 +10,7 @@ const ModalContoller = ({
   const { setHandler } = useContext(ModalContext)!;
   const init = useRef(false);
   if (init.current === false) {
-    setHandler(setOpen);
+    // setHandler(setOpen);
     init.current = true;
   }
   useEffect(() => {

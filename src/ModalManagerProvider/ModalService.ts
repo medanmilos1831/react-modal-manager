@@ -1,17 +1,22 @@
-import { handlerType, IModalService, modalElementType } from './types';
+import {
+  handlerType,
+  IModalService,
+  IOverlay,
+  modalElementType,
+  overlayMapType,
+} from './types';
 
 export class ModalService implements IModalService {
   handler: handlerType | undefined = undefined;
   modalElement: modalElementType = null;
   config: any = null;
-  overlays: any = undefined;
-  elementsService: any = {};
+  // overlays: any = undefined;
+  overlaysMap: overlayMapType = {};
 
-  constructor(overlays: any) {
-    this.overlays = overlays;
-    this.overlays.forEach((i: any) => {
-      this.elementsService[i.elementName] = {
-        modalElement: null,
+  constructor(overlays: IOverlay[]) {
+    overlays.forEach(({ overlayName }) => {
+      this.overlaysMap[overlayName] = {
+        overlayElement: null,
         config: null,
       };
     });
@@ -23,11 +28,11 @@ export class ModalService implements IModalService {
 
   open = <T = unknown>(
     elementName: string,
-    modalElement: modalElementType,
+    overlayElement: modalElementType,
     config?: T
   ) => {
-    this.elementsService[elementName].modalElement = modalElement;
-    this.elementsService[elementName].config = config ? config : null;
+    this.overlaysMap[elementName].overlayElement = overlayElement;
+    this.overlaysMap[elementName].config = config ? config : null;
     this.handler!((prev: any) => {
       return {
         ...prev,

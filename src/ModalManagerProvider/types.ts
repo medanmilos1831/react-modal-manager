@@ -9,15 +9,35 @@ export interface IModalService {
   open: any;
   // close(): void;
   close: any;
-  overlays: any[];
+  overlaysMap: any;
 }
 
 export type modalElementType = ReactNode | null;
 
-export type handlerType = React.Dispatch<React.SetStateAction<boolean>>;
+export type handlerType = React.Dispatch<
+  React.SetStateAction<{
+    [key: string]: boolean;
+  }>
+>;
 
 export type modalRenderType<C = any> = (obj: {
   open: boolean;
   Element: () => modalElementType;
   config: C;
 }) => ReactNode;
+
+export interface IOverlay {
+  overlayName: string;
+  OverlayElement: (obj: {
+    open: boolean;
+    Element: () => modalElementType;
+    config: any;
+  }) => ReactNode;
+}
+
+export type overlayMapType = {
+  [key: string]: {
+    overlayElement: ReactNode | null;
+    config: any;
+  };
+};
