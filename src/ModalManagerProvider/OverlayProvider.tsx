@@ -3,7 +3,7 @@ import { Contoller } from './Contoller';
 import { OverlayContext } from './OverlayContext';
 import { OverlayService } from './OverlayService';
 import { IOverlay } from './types';
-function OverlayProvider<T extends IOverlay<any>[] | any[]>({
+function OverlayProvider<T extends IOverlay<any>[]>({
   children,
   overlays,
 }: PropsWithChildren<{
@@ -20,6 +20,7 @@ function OverlayProvider<T extends IOverlay<any>[] | any[]>({
           <Contoller>
             {(open) => {
               const { overlaysMap } = service;
+              console.log('OPNE', open);
               return (
                 <>
                   {children}

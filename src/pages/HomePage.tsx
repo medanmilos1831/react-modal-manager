@@ -1,6 +1,6 @@
 import { ModalProps } from 'antd';
 import { useOverlay } from '../ModalManagerProvider';
-const ModalElement = () => {
+const ModalElement = ({ fname }: { fname: string }) => {
   return <>Element</>;
 };
 const HomePage = () => {
@@ -11,7 +11,7 @@ const HomePage = () => {
       <span>Home page</span>
       <button
         onClick={() => {
-          open('modal', <ModalElement />, {
+          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
             closable: true,
             onCancel(e: any) {
               close('modal');
@@ -24,7 +24,7 @@ const HomePage = () => {
       </button>
       <button
         onClick={() => {
-          open<ModalProps>('modal', <ModalElement />, {
+          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
             closable: true,
             onCancel(e: any) {
               close('modal');
