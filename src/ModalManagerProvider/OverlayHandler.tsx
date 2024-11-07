@@ -1,7 +1,11 @@
 import { ReactNode, useContext, useRef, useState } from 'react';
 import { OverlayContext } from './OverlayContext';
 
-const Contoller = ({ children }: { children: (open: any) => ReactNode }) => {
+const OverlayHandler = ({
+  children,
+}: {
+  children: (open: any) => ReactNode;
+}) => {
   const { setHandler, ...rest } = useContext(OverlayContext)!;
   const [open, setOpen] = useState(function () {
     let map: { [key: string]: boolean } = {};
@@ -19,4 +23,4 @@ const Contoller = ({ children }: { children: (open: any) => ReactNode }) => {
   return <>{children(open)}</>;
 };
 
-export { Contoller };
+export { OverlayHandler };
