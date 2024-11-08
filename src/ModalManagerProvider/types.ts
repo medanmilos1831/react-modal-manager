@@ -8,14 +8,14 @@ export interface IOverlayService {
     config?: T
   ): void;
   close(overlayName: string): void;
-  overlaysMap: overlayMapType;
+  overlaysMap: overlayEntityMapType;
   overlaySubscriberOnChange: (overlayName: string) => () => () => void;
-  getOverlayByName: (overlayName: string) => {
-    overlayInnerElement: overlayInnerElementType;
-    config: any;
-    visible: boolean;
-    Overlay: overlayComponentType;
-  };
+  getOverlayByName: (overlayName: string) => overlayEntityType;
+}
+
+export interface IOverlayContext {
+  open: IOverlayService['open'];
+  close: IOverlayService['close'];
 }
 
 export interface IOverlayItem<T = any> {
@@ -23,13 +23,15 @@ export interface IOverlayItem<T = any> {
   Overlay: overlayComponentType<T>;
 }
 
-export type overlayMapType = {
-  [key: string]: {
-    overlayInnerElement: overlayInnerElementType;
-    config: any;
-    visible: boolean;
-    Overlay: overlayComponentType;
-  };
+type overlayEntityType = {
+  overlayInnerElement: overlayInnerElementType;
+  config: any;
+  visible: boolean;
+  Overlay: overlayComponentType;
+};
+
+export type overlayEntityMapType = {
+  [key: string]: overlayEntityType;
 };
 
 type overlayComponentType<T = any> = (obj: {

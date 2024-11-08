@@ -14,7 +14,12 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
     return new OverlayService(overlays);
   }
   return (
-    <OverlayContext.Provider value={service}>
+    <OverlayContext.Provider
+      value={{
+        open: service.open,
+        close: service.close,
+      }}
+    >
       <>
         {children}
         <>

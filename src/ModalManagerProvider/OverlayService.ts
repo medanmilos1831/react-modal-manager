@@ -1,16 +1,15 @@
-import { createElement } from 'react';
 import { ErrorHandling } from './ErrorHandling';
 import { ProxyConstructor } from './ProxyConstructor';
 import {
   handlerType,
-  IOverlayService,
   IOverlayItem,
+  IOverlayService,
+  overlayEntityMapType,
   overlayInnerElementType,
-  overlayMapType,
 } from './types';
 
 export class OverlayService extends ErrorHandling implements IOverlayService {
-  overlaysMap: overlayMapType = {};
+  overlaysMap: overlayEntityMapType = {};
   private subscribers = new Map();
 
   constructor(overlays: IOverlayItem[]) {
@@ -20,14 +19,14 @@ export class OverlayService extends ErrorHandling implements IOverlayService {
     );
   }
 
+  private notify = (elementName: string) => {
+    this.subscribers.get(elementName)();
+  };
+
   subscribe = (overlayName: string, handler: handlerType) => {
     this.subscribers.set(overlayName, () => {
       handler((prev) => ++prev);
     });
-  };
-
-  private notify = (elementName: string) => {
-    this.subscribers.get(elementName)();
   };
 
   overlaySubscriberOnChange = (overlayName: string) => {

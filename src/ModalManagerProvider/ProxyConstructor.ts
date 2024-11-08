@@ -1,4 +1,4 @@
-import { IOverlayItem, overlayMapType } from './types';
+import { IOverlayItem, overlayEntityMapType } from './types';
 
 export abstract class ProxyConstructor {
   static createProxy = (
@@ -17,7 +17,7 @@ export abstract class ProxyConstructor {
       };
     }, {});
     return new Proxy(overlaysMap, {
-      set: (target: overlayMapType, prop: string, newValue) => {
+      set: (target: overlayEntityMapType, prop: string, newValue) => {
         target[prop] = newValue;
         notify(prop);
         return Reflect.set(target, prop, newValue);

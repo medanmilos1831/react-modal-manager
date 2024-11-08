@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { IOverlayService } from './types';
+import { IOverlayContext } from './types';
 
-export const OverlayContext = createContext<IOverlayService | undefined>(
+export const OverlayContext = createContext<IOverlayContext | undefined>(
   undefined
 );
