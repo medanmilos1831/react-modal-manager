@@ -1,20 +1,19 @@
-import { ModalProps } from 'antd';
-import { useModal } from '../ModalManagerProvider';
-const ModalElement = () => {
+import { DrawerProps, ModalProps } from 'antd';
+import { useOverlay } from '../ModalManagerProvider';
+const ModalElement = ({ fname }: { fname: string }) => {
   return <>Element</>;
 };
 const HomePage = () => {
-  console.log('RENDER HOME PAGE');
-  const { open, close } = useModal();
+  const { open, close } = useOverlay();
   return (
     <div>
       <span>Home page</span>
       <button
         onClick={() => {
-          open<ModalProps>(<ModalElement />, {
+          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
             closable: true,
-            onCancel(e) {
-              close();
+            onCancel(e: any) {
+              close('modal');
             },
             width: 700,
           });
@@ -24,10 +23,10 @@ const HomePage = () => {
       </button>
       <button
         onClick={() => {
-          open<ModalProps>(<ModalElement />, {
+          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
             closable: true,
-            onCancel(e) {
-              close();
+            onCancel(e: any) {
+              close('modal');
             },
             width: 200,
           });
@@ -35,10 +34,20 @@ const HomePage = () => {
       >
         click me o 500
       </button>
+      <button
+        onClick={() => {
+          open<DrawerProps>('drawer', <ModalElement fname="Pera" />, {
+            closable: true,
+            width: 200,
+          });
+        }}
+      >
+        drawer
+      </button>
 
       <button
         onClick={() => {
-          close();
+          close('modal');
         }}
       >
         click me c
