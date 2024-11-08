@@ -1,19 +1,19 @@
 import {
   handlerType,
   IOverlayService,
-  IOverlay,
-  modalElementType,
+  IOverlayItem,
+  overlayInnerElementType,
   overlayMapType,
 } from './types';
 
 export class OverlayService implements IOverlayService {
   overlaysMap: overlayMapType = {};
-  uiHandlersMap = new Map();
+  private subscribers = new Map();
 
-  constructor(overlays: IOverlay[]) {
+  constructor(overlays: IOverlayItem[]) {
     overlays.forEach(({ overlayName, Overlay }) => {
       this.overlaysMap[overlayName] = {
-        overlayElement: null,
+        overlayInnerElement: null,
         config: null,
         visible: false,
         Overlay,
@@ -21,34 +21,34 @@ export class OverlayService implements IOverlayService {
     });
   }
 
-  setHandler = (handler: handlerType, overlayName: string) => {
-    this.uiHandlersMap.set(overlayName, () => {
+  subscribe = (overlayName: string, handler: handlerType) => {
+    this.subscribers.set(overlayName, () => {
       handler((prev) => ++prev);
     });
   };
 
-  updateUI(elementName: string) {
-    this.uiHandlersMap.get(elementName)();
+  private notify(elementName: string) {
+    this.subscribers.get(elementName)();
   }
 
   open = <T = any>(
     elementName: string,
-    overlayElement: modalElementType,
+    overlayInnerElement: overlayInnerElementType,
     config?: T
   ) => {
     this.overlaysMap = {
       ...this.overlaysMap,
       [elementName]: {
         ...this.overlaysMap[elementName],
-        overlayElement,
+        overlayInnerElement,
         config: config || null,
         visible: true,
       },
     };
-    this.updateUI(elementName);
+    this.notify(elementName);
   };
   close = (elementName: string) => {
     this.overlaysMap[elementName].visible = false;
-    this.updateUI(elementName);
+    this.notify(elementName);
   };
 }

@@ -1,21 +1,21 @@
 import { ReactNode, useContext, useRef, useState } from 'react';
 import { OverlayContext } from './OverlayContext';
 
-const UIHandler = ({
+const UISubscriber = ({
   children,
   overlayName,
 }: {
   children: (props: any) => ReactNode;
   overlayName: string;
 }) => {
-  const { setHandler, overlaysMap } = useContext(OverlayContext)!;
+  const { subscribe, overlaysMap } = useContext(OverlayContext)!;
   const [_, update] = useState(0);
   const init = useRef(false);
   if (init.current === false) {
-    setHandler(update, overlayName);
+    subscribe(overlayName, update);
     init.current = true;
   }
   return <>{children(overlaysMap[overlayName])}</>;
 };
 
-export { UIHandler };
+export { UISubscriber };

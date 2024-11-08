@@ -1,34 +1,36 @@
 import { ReactNode } from 'react';
 
 export interface IOverlayService {
-  setHandler(handler: handlerType, overlayName: string): void;
-  open<T = unknown>(
+  subscribe(overlayName: string, handler: handlerType): void;
+  open<T = any>(
     overlayName: string,
-    component: modalElementType,
+    component: overlayInnerElementType,
     config?: T
   ): void;
   close(overlayName: string): void;
   overlaysMap: overlayMapType;
 }
 
-export type modalElementType = ReactNode | null;
-
-export type handlerType = React.Dispatch<React.SetStateAction<number>>;
-
-export interface IOverlay<T = unknown> {
+export interface IOverlayItem<T = any> {
   overlayName: string;
-  Overlay: (obj: {
-    open: boolean;
-    Element: () => modalElementType;
-    config: T;
-  }) => ReactNode;
+  Overlay: overlayComponentType<T>;
 }
 
 export type overlayMapType = {
   [key: string]: {
-    overlayElement: ReactNode | null;
-    config: unknown;
+    overlayInnerElement: overlayInnerElementType;
+    config: any;
     visible: boolean;
-    Overlay: any;
+    Overlay: overlayComponentType;
   };
 };
+
+type overlayComponentType<T = any> = (obj: {
+  open: boolean;
+  Element: () => overlayInnerElementType;
+  config: T;
+}) => ReactNode;
+
+export type overlayInnerElementType = ReactNode | null;
+
+export type handlerType = React.Dispatch<React.SetStateAction<number>>;

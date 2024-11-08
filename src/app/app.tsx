@@ -1,15 +1,14 @@
 import { Drawer, DrawerProps, Modal, ModalProps } from 'antd';
 import { OverlayProvider } from '../ModalManagerProvider';
 import { HomePage } from '../pages/HomePage';
-import { IOverlay } from '../ModalManagerProvider/types';
+import { IOverlayItem } from '../ModalManagerProvider/types';
 const App = () => {
   return (
-    <OverlayProvider<[IOverlay<ModalProps>, IOverlay<DrawerProps>]>
+    <OverlayProvider<[IOverlayItem<ModalProps>, IOverlayItem<DrawerProps>]>
       overlays={[
         {
           overlayName: 'modal',
           Overlay: ({ open, Element, config }) => {
-            // console.log('modal');
             return (
               <Modal open={open} {...config}>
                 <Element />
@@ -20,7 +19,6 @@ const App = () => {
         {
           overlayName: 'drawer',
           Overlay: ({ open, Element, config }) => {
-            // console.log('drawer');
             return (
               <Drawer open={open} {...config}>
                 <Element />

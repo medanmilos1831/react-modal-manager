@@ -1,9 +1,9 @@
 import { PropsWithChildren, useContext, useState } from 'react';
-import { UIHandler } from './UIHandler';
+import { UISubscriber } from './UISubscriber';
 import { OverlayContext } from './OverlayContext';
 import { OverlayService } from './OverlayService';
-import { IOverlay } from './types';
-function OverlayProvider<T extends IOverlay<any>[]>({
+import { IOverlayItem } from './types';
+function OverlayProvider<T extends IOverlayItem<any>[]>({
   children,
   overlays,
 }: PropsWithChildren<{
@@ -20,7 +20,7 @@ function OverlayProvider<T extends IOverlay<any>[]>({
         <>
           {Object.keys(service.overlaysMap).map((overlayName) => {
             return (
-              <UIHandler overlayName={overlayName}>
+              <UISubscriber overlayName={overlayName}>
                 {({ Overlay, config, visible, overlayElement }) => {
                   return (
                     <Overlay
@@ -30,7 +30,7 @@ function OverlayProvider<T extends IOverlay<any>[]>({
                     />
                   );
                 }}
-              </UIHandler>
+              </UISubscriber>
             );
           })}
         </>
