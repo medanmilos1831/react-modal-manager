@@ -9,7 +9,7 @@ export interface IOverlayService {
   ): void;
   close(overlayName: string): void;
   overlaysMap: overlayMapType;
-  overlaySubscriberOnChange: any;
+  overlaySubscriberOnChange: (overlayName: string) => () => () => void;
   getOverlayByName: (overlayName: string) => {
     overlayInnerElement: overlayInnerElementType;
     config: any;
