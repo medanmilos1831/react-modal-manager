@@ -7,17 +7,16 @@ import {
 } from './types';
 
 export class OverlayService implements IOverlayService {
-  handler: handlerType | undefined = undefined;
   overlaysMap: overlayMapType = {};
   uiHandlersMap = new Map();
-  active = null;
 
   constructor(overlays: IOverlay[]) {
-    overlays.forEach(({ overlayName }) => {
+    overlays.forEach(({ overlayName, Overlay }) => {
       this.overlaysMap[overlayName] = {
         overlayElement: null,
         config: null,
         visible: false,
+        Overlay,
       };
     });
   }
@@ -40,6 +39,7 @@ export class OverlayService implements IOverlayService {
     this.overlaysMap = {
       ...this.overlaysMap,
       [elementName]: {
+        ...this.overlaysMap[elementName],
         overlayElement,
         config: config || null,
         visible: true,

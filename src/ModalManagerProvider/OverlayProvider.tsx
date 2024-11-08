@@ -14,31 +14,28 @@ function OverlayProvider<T extends IOverlay<any>[]>({
     return new OverlayService(overlays);
   }
   return (
-    <div>
-      <OverlayContext.Provider value={service}>
+    <OverlayContext.Provider value={service}>
+      <>
+        {children}
         <>
-          {children}
-          <>
-            {overlays.map(({ overlayName, Overlay }) => {
-              return (
-                <UIHandler overlayName={overlayName}>
-                  {() => {
-                    let item = service.overlaysMap[overlayName];
-                    return (
-                      <Overlay
-                        config={item.config || {}}
-                        open={item.visible}
-                        Element={() => item.overlayElement}
-                      />
-                    );
-                  }}
-                </UIHandler>
-              );
-            })}
-          </>
+          {Object.keys(service.overlaysMap).map((overlayName) => {
+            return (
+              <UIHandler overlayName={overlayName}>
+                {({ Overlay, config, visible, overlayElement }) => {
+                  return (
+                    <Overlay
+                      config={config || {}}
+                      open={visible}
+                      Element={() => overlayElement}
+                    />
+                  );
+                }}
+              </UIHandler>
+            );
+          })}
         </>
-      </OverlayContext.Provider>
-    </div>
+      </>
+    </OverlayContext.Provider>
   );
 }
 const useOverlay = () => {
