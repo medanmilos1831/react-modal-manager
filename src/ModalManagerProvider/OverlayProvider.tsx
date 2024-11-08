@@ -18,7 +18,7 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
       <>
         {children}
         <>
-          {Object.keys(service.overlaysMap).map((overlayName) => {
+          {Object.keys(service.overlaysMap!).map((overlayName) => {
             return (
               <UISubscriber overlayName={overlayName}>
                 {({ Overlay, config, visible, overlayElement }) => {

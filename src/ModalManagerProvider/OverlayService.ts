@@ -1,3 +1,4 @@
+import { ErrorHandling } from './ErrorHandling';
 import {
   handlerType,
   IOverlayService,
@@ -6,18 +7,29 @@ import {
   overlayMapType,
 } from './types';
 
-export class OverlayService implements IOverlayService {
+export class OverlayService extends ErrorHandling implements IOverlayService {
   overlaysMap: overlayMapType = {};
   private subscribers = new Map();
 
   constructor(overlays: IOverlayItem[]) {
-    overlays.forEach(({ overlayName, Overlay }) => {
-      this.overlaysMap[overlayName] = {
-        overlayInnerElement: null,
-        config: null,
-        visible: false,
-        Overlay,
+    super();
+    let overlaysMap = overlays.reduce((acc, { overlayName, Overlay }) => {
+      return {
+        ...acc,
+        [overlayName]: {
+          overlayInnerElement: null,
+          config: null,
+          visible: false,
+          Overlay,
+        },
       };
+    }, {});
+    this.overlaysMap = new Proxy(overlaysMap, {
+      set: (target: overlayMapType, prop: string, newValue) => {
+        target[prop] = newValue;
+        this.notify(prop);
+        return Reflect.set(target, prop, newValue);
+      },
     });
   }
 
@@ -27,28 +39,26 @@ export class OverlayService implements IOverlayService {
     });
   };
 
-  private notify(elementName: string) {
+  private notify = (elementName: string) => {
     this.subscribers.get(elementName)();
-  }
+  };
 
   open = <T = any>(
     elementName: string,
     overlayInnerElement: overlayInnerElementType,
     config?: T
   ) => {
-    this.overlaysMap = {
-      ...this.overlaysMap,
-      [elementName]: {
-        ...this.overlaysMap[elementName],
-        overlayInnerElement,
-        config: config || null,
-        visible: true,
-      },
+    this.overlaysMap[elementName] = {
+      ...this.overlaysMap[elementName],
+      overlayInnerElement,
+      config: config || null,
+      visible: true,
     };
-    this.notify(elementName);
   };
   close = (elementName: string) => {
-    this.overlaysMap[elementName].visible = false;
-    this.notify(elementName);
+    this.overlaysMap[elementName] = {
+      ...this.overlaysMap[elementName],
+      visible: false,
+    };
   };
 }
