@@ -30,10 +30,9 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
                 subscribe={(handler) => {
                   service.subscribe(overlayName, handler);
                 }}
+                initState={service.overlaysMap[overlayName]}
               >
-                {() => {
-                  const { config, visible, overlayInnerElement, Overlay } =
-                    service.getOverlayByName(overlayName);
+                {({ config, visible, overlayInnerElement, Overlay }) => {
                   return (
                     <Overlay
                       config={config || {}}

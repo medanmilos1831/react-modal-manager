@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface IOverlayService {
-  subscribe(overlayName: string, handler: handlerType): void;
+  subscribe(overlayName: string, handler: any): void;
   open<T = any>(
     overlayName: string,
     component: overlayInnerElementType,
@@ -23,7 +23,7 @@ export interface IOverlayItem<T = any> {
   Overlay: overlayComponentType<T>;
 }
 
-type overlayEntityType = {
+export type overlayEntityType = {
   overlayInnerElement: overlayInnerElementType;
   config: any;
   visible: boolean;
@@ -42,4 +42,6 @@ type overlayComponentType<T = any> = (obj: {
 
 export type overlayInnerElementType = ReactNode | null;
 
-export type handlerType = React.Dispatch<React.SetStateAction<number>>;
+export type handlerType = React.Dispatch<
+  React.SetStateAction<overlayEntityType>
+>;

@@ -20,12 +20,17 @@ export class OverlayService extends ErrorHandling implements IOverlayService {
   }
 
   private notify = (elementName: string) => {
-    this.subscribers.get(elementName)();
+    this.subscribers.get(elementName)(this.overlaysMap[elementName]);
   };
 
   subscribe = (overlayName: string, handler: handlerType) => {
-    this.subscribers.set(overlayName, () => {
-      handler((prev) => ++prev);
+    this.subscribers.set(overlayName, (data: overlayEntityMapType) => {
+      handler((prev) => {
+        return {
+          ...prev,
+          ...data,
+        };
+      });
     });
   };
 

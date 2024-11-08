@@ -1,23 +1,25 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { handlerType } from './types';
+import { handlerType, overlayEntityType } from './types';
 
 const OverlaySubscriber = ({
   children,
   onChange,
   subscribe,
+  initState,
 }: {
-  children: () => ReactNode;
+  children: (state: overlayEntityType) => ReactNode;
   onChange: () => () => void;
   subscribe: (handler: handlerType) => void;
+  initState: overlayEntityType;
 }) => {
-  const [_, update] = useState(0);
+  const [state, setState] = useState(initState);
   const init = useRef(false);
   if (init.current === false) {
-    subscribe(update);
+    subscribe(setState);
     init.current = true;
   }
-  useEffect(onChange, [_]);
-  return <>{children()}</>;
+  useEffect(onChange, [state]);
+  return <>{children(state)}</>;
 };
 
 export { OverlaySubscriber };
