@@ -9,6 +9,13 @@ export interface IOverlayService {
   ): void;
   close(overlayName: string): void;
   overlaysMap: overlayMapType;
+  overlaySubscriberOnChange: any;
+  getOverlayByName: (overlayName: string) => {
+    overlayInnerElement: overlayInnerElementType;
+    config: any;
+    visible: boolean;
+    Overlay: overlayComponentType;
+  };
 }
 
 export interface IOverlayItem<T = any> {

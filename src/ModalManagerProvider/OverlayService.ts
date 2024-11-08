@@ -1,4 +1,5 @@
 import { ErrorHandling } from './ErrorHandling';
+import { ProxyConstructor } from './ProxyConstructor';
 import {
   handlerType,
   IOverlayService,
@@ -13,24 +14,9 @@ export class OverlayService extends ErrorHandling implements IOverlayService {
 
   constructor(overlays: IOverlayItem[]) {
     super();
-    let overlaysMap = overlays.reduce((acc, { overlayName, Overlay }) => {
-      return {
-        ...acc,
-        [overlayName]: {
-          overlayInnerElement: null,
-          config: null,
-          visible: false,
-          Overlay,
-        },
-      };
-    }, {});
-    this.overlaysMap = new Proxy(overlaysMap, {
-      set: (target: overlayMapType, prop: string, newValue) => {
-        target[prop] = newValue;
-        this.notify(prop);
-        return Reflect.set(target, prop, newValue);
-      },
-    });
+    this.overlaysMap = ProxyConstructor.createProxy(overlays, (prop: string) =>
+      this.notify(prop)
+    );
   }
 
   subscribe = (overlayName: string, handler: handlerType) => {
@@ -41,6 +27,25 @@ export class OverlayService extends ErrorHandling implements IOverlayService {
 
   private notify = (elementName: string) => {
     this.subscribers.get(elementName)();
+  };
+
+  overlaySubscriberOnChange = (overlayName: string) => {
+    return () => {
+      return () => {
+        if (
+          !this.overlaysMap[overlayName].visible &&
+          (this.overlaysMap[overlayName].config ||
+            this.overlaysMap[overlayName].overlayInnerElement)
+        ) {
+          this.overlaysMap[overlayName].config = null;
+          this.overlaysMap[overlayName].overlayInnerElement = null;
+        }
+      };
+    };
+  };
+
+  getOverlayByName = (overlayName: string) => {
+    return this.overlaysMap[overlayName];
   };
 
   open = <T = any>(

@@ -1,8 +1,8 @@
 import { PropsWithChildren, useContext, useState } from 'react';
-import { UISubscriber } from './UISubscriber';
 import { OverlayContext } from './OverlayContext';
 import { OverlayService } from './OverlayService';
 import { IOverlayItem } from './types';
+import { OverlaySubscriber } from './OverlaySubscriber';
 function OverlayProvider<T extends IOverlayItem<any>[]>({
   children,
   overlays,
@@ -18,19 +18,26 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
       <>
         {children}
         <>
-          {Object.keys(service.overlaysMap!).map((overlayName) => {
+          {Object.keys(service.overlaysMap).map((overlayName) => {
             return (
-              <UISubscriber overlayName={overlayName}>
-                {({ Overlay, config, visible, overlayElement }) => {
+              <OverlaySubscriber
+                onChange={service.overlaySubscriberOnChange(overlayName)}
+                subscribe={(handler) => {
+                  service.subscribe(overlayName, handler);
+                }}
+              >
+                {() => {
+                  const { config, visible, overlayInnerElement, Overlay } =
+                    service.getOverlayByName(overlayName);
                   return (
                     <Overlay
                       config={config || {}}
                       open={visible}
-                      Element={() => overlayElement}
+                      Element={() => overlayInnerElement}
                     />
                   );
                 }}
-              </UISubscriber>
+              </OverlaySubscriber>
             );
           })}
         </>
