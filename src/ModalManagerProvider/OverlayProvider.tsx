@@ -11,7 +11,7 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
 }>) {
   const [service, _] = useState(init);
   function init() {
-    return new OverlayService(overlays);
+    return new OverlayService();
   }
   return (
     <OverlayContext.Provider
@@ -23,14 +23,18 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
       <>
         {children}
         <>
-          {Object.keys(service.overlaysMap).map((overlayName) => {
+          {overlays.map(({ overlayName, Overlay }) => {
             return (
               <OverlaySubscriber
-                onChange={service.overlaySubscriberOnChange(overlayName)}
                 subscribe={(handler) => {
                   service.subscribe(overlayName, handler);
                 }}
-                initState={service.overlaysMap[overlayName]}
+                initState={{
+                  overlayInnerElement: null,
+                  config: null,
+                  visible: false,
+                  Overlay,
+                }}
               >
                 {({ config, visible, overlayInnerElement, Overlay }) => {
                   return (

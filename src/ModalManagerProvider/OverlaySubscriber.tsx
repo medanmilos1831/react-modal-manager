@@ -3,12 +3,10 @@ import { handlerType, overlayEntityType } from './types';
 
 const OverlaySubscriber = ({
   children,
-  onChange,
   subscribe,
   initState,
 }: {
   children: (state: overlayEntityType) => ReactNode;
-  onChange: () => () => void;
   subscribe: (handler: handlerType) => void;
   initState: overlayEntityType;
 }) => {
@@ -18,7 +16,14 @@ const OverlaySubscriber = ({
     subscribe(setState);
     init.current = true;
   }
-  useEffect(onChange, [state]);
+  useEffect(() => {
+    return () => {
+      if (state.visible && (state.config || state.overlayInnerElement)) {
+        state.config = null;
+        state.overlayInnerElement = null;
+      }
+    };
+  }, [state]);
   return <>{children(state)}</>;
 };
 

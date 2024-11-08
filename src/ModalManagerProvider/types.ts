@@ -8,9 +8,6 @@ export interface IOverlayService {
     config?: T
   ): void;
   close(overlayName: string): void;
-  overlaysMap: overlayEntityMapType;
-  overlaySubscriberOnChange: (overlayName: string) => () => () => void;
-  getOverlayByName: (overlayName: string) => overlayEntityType;
 }
 
 export interface IOverlayContext {
