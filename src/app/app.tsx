@@ -1,7 +1,7 @@
 import { Drawer, DrawerProps, Modal, ModalProps } from 'antd';
-import { OverlayProvider } from '../ModalManagerProvider';
+import { OverlayProvider } from '../OverlayProvider';
 import { HomePage } from '../pages/HomePage';
-import { IOverlayItem } from '../ModalManagerProvider/types';
+import { IOverlayItem } from '../OverlayProvider/types';
 const App = () => {
   return (
     <OverlayProvider<[IOverlayItem<ModalProps>, IOverlayItem<DrawerProps>]>
