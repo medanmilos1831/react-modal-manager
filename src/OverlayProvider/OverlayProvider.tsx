@@ -5,15 +5,15 @@ import { IOverlayItem } from './types';
 import { OverlaySubscriber } from './OverlaySubscriber';
 
 /**
- * `OverlayProvider` komponenta koja pruža servis za upravljanje otvorenim i zatvorenim overlay-ima.
- * Ova komponenta koristi `OverlayService` za upravljanje stanjima overlay-a i prosleđuje ih
- * kroz `OverlayContext` kako bi bile dostupne u svim podkomponentama koje koriste `useOverlay`.
+ * `OverlayProvider` is a component that provides a service for managing open and close operations
+ * of overlays. This component uses `OverlayService` to handle the overlay state and propagates it
+ * through `OverlayContext`, making it accessible to all child components that use the `useOverlay` hook.
  *
- * @param children - Deca komponente koja će biti renderovana unutar providera.
- * @param overlays - Lista svih overlay-a koji će biti praćeni i prikazivani. Svaki overlay
- * sadrži `overlayName` (ime koje identifikuje overlay) i `Overlay` (komponenta koja će biti renderovana).
+ * @param children - The children components to be rendered within the provider.
+ * @param overlays - A list of all overlays that will be tracked and displayed. Each overlay consists
+ * of `overlayName` (a unique identifier for the overlay) and `Overlay` (the component to be rendered).
  *
- * @returns {JSX.Element} - Komponenta koja omogućava upravljanje overlay-ima kroz kontekst.
+ * @returns {JSX.Element} - A component that enables overlay management through context.
  */
 function OverlayProvider<T extends IOverlayItem<any>[]>({
   children,
@@ -21,10 +21,10 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
 }: PropsWithChildren<{
   overlays: T;
 }>) {
-  // Inicijalizuje OverlayService, koji se koristi za upravljanje otvorenim i zatvorenim overlay-ima
+  // Initializes the OverlayService, which manages the open and close states of overlays
   const [service, _] = useState(init);
 
-  // Funkcija koja inicijalizuje OverlayService
+  // Function to initialize the OverlayService
   function init() {
     return new OverlayService();
   }
@@ -32,8 +32,8 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
   return (
     <OverlayContext.Provider
       value={{
-        open: service.openOverlay, // Funkcija za otvaranje overlay-a
-        close: service.closeOverlay, // Funkcija za zatvaranje overlay-a
+        open: service.openOverlay, // Function to open an overlay
+        close: service.closeOverlay, // Function to close an overlay
       }}
     >
       <>
@@ -43,7 +43,7 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
             return (
               <OverlaySubscriber
                 subscribe={(handler) => {
-                  // Dodaje handler za svaki overlay
+                  // Adds a handler for each overlay
                   service.addOverlayHandler(overlayName, handler);
                 }}
                 Overlay={Overlay}
@@ -51,9 +51,9 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
                 {({ config, visible, overlayInnerElement, Overlay }) => {
                   return (
                     <Overlay
-                      config={config || {}} // Prilagođava default konfiguraciju
-                      open={visible} // Da li je overlay otvoren
-                      Element={() => overlayInnerElement} // Element koji treba prikazati unutar overlay-a
+                      config={config || {}} // Provides default configuration if none is provided
+                      open={visible} // Indicates whether the overlay is open
+                      Element={() => overlayInnerElement} // Element to display inside the overlay
                     />
                   );
                 }}
@@ -67,16 +67,16 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
 }
 
 /**
- * `useOverlay` hook koji omogućava pristup funkcijama za otvaranje i zatvaranje overlay-a
- * unutar komponenata koje koriste `OverlayProvider`.
+ * `useOverlay` is a custom hook that provides access to functions for opening and closing overlays
+ * within components that use the `OverlayProvider`.
  *
- * @returns {Object} - Objekat sa funkcijama `open` i `close` koje omogućavaju upravljanje overlay-ima.
+ * @returns {Object} - An object containing `open` and `close` functions for overlay management.
  */
 const useOverlay = () => {
   const { open, close } = useContext(OverlayContext)!;
   return {
-    open, // Funkcija za otvaranje overlay-a
-    close, // Funkcija za zatvaranje overlay-a
+    open, // Function to open an overlay
+    close, // Function to close an overlay
   };
 };
 
