@@ -46,9 +46,8 @@ function OverlayProvider<T extends IOverlayItem<any>[]>({
                   // Adds a handler for each overlay
                   service.addOverlayHandler(overlayName, handler);
                 }}
-                Overlay={Overlay}
               >
-                {({ config, visible, overlayInnerElement, Overlay }) => {
+                {({ config, visible, overlayInnerElement }) => {
                   return (
                     <Overlay
                       config={config || {}} // Provides default configuration if none is provided

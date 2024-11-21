@@ -10,7 +10,7 @@ const HomePage = () => {
       <span>Home page</span>
       <button
         onClick={() => {
-          open<ModalProps>('moddsdal', <ModalElement fname="Pera" />, {
+          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
             closable: true,
             onCancel(e: any) {
               close('modal');

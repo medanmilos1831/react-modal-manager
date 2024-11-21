@@ -17,18 +17,15 @@ import { handlerType, overlayComponentType, overlayEntityType } from './types';
 const OverlaySubscriber = ({
   children,
   subscribe,
-  Overlay,
 }: {
   children: (state: overlayEntityType) => ReactNode;
   subscribe: (handler: handlerType) => void;
-  Overlay: overlayComponentType;
 }) => {
   // State to store the current overlay entity details (inner element, config, visibility, etc.)
   const [state, setState] = useState<overlayEntityType>({
     overlayInnerElement: null,
     config: null,
     visible: false,
-    Overlay,
   });
 
   // Ref to track the initial render to avoid multiple subscriptions

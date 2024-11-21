@@ -75,7 +75,6 @@ export type overlayEntityType = {
   overlayInnerElement: overlayInnerElementType;
   config: any;
   visible: boolean;
-  Overlay: overlayComponentType;
 };
 
 /**
