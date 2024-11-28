@@ -1,15 +1,15 @@
 import { Modal } from 'antd';
-import { useOverlay } from '../OverlayProvider';
+import { OverlayProvider, useOverlay } from '../OverlayProvider';
 
 const HomePage = () => {
-  const { OverlaySubscriber, overlayHandler } = useOverlay();
+  const overlayHandler = useOverlay();
   return (
     <div>
       <div>
         <h1>Home Page</h1>
       </div>
-      <OverlaySubscriber overlayName="pera">
-        {({ open, data }) => {
+      <OverlayProvider.Item overlayName="pera">
+        {({ open }) => {
           return (
             <Modal
               open={open}
@@ -24,15 +24,14 @@ const HomePage = () => {
             </Modal>
           );
         }}
-      </OverlaySubscriber>
-      <OverlaySubscriber overlayName="zika">
-        {(data: any) => {
+      </OverlayProvider.Item>
+      <OverlayProvider.Item overlayName="zika">
+        {(data) => {
           return (
             <Modal
               open={data.open}
               destroyOnClose
               onCancel={() => {
-                console.log('ovo se desilo');
                 overlayHandler({
                   overlayName: 'zika',
                   open: false,
@@ -44,13 +43,13 @@ const HomePage = () => {
             </Modal>
           );
         }}
-      </OverlaySubscriber>
+      </OverlayProvider.Item>
       <button
         onClick={() => {
           overlayHandler({
             overlayName: 'pera',
             open: true,
-            data: {
+            overlayData: {
               props: {
                 id: 1,
               },
@@ -65,7 +64,7 @@ const HomePage = () => {
           overlayHandler({
             overlayName: 'zika',
             open: true,
-            data: {
+            overlayData: {
               props: {
                 id: undefined,
               },

@@ -17,7 +17,7 @@ const OverlaySubscriber = ({
   if (init.current === false) {
     subscribe({
       setVisible,
-      data: undefined,
+      overlayData: undefined,
     });
     init.current = true;
   }
@@ -25,10 +25,6 @@ const OverlaySubscriber = ({
   useEffect(() => {
     return () => {
       unsubscribe();
-      // if (state.visible && (state.config || state.overlayInnerElement)) {
-      //   state.config = null;
-      //   state.overlayInnerElement = null;
-      // }
     };
   }, []);
 

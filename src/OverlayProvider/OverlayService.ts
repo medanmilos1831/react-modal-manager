@@ -11,15 +11,19 @@ export class OverlayService implements IOverlayService {
     this.#overlayHandlers.delete(overlayName);
   };
 
-  overlayHandler = ({ overlayName, open, data }: overlayHandlerParam) => {
+  overlayHandler = ({
+    overlayName,
+    open,
+    overlayData,
+  }: overlayHandlerParam) => {
     let entry = this.#overlayHandlers.get(overlayName);
     if (!entry) return;
-    entry.data = data;
+    entry.overlayData = overlayData;
     entry.setVisible(open);
   };
-  getData = (overlayName: string) => {
+  getOverlayData = (overlayName: string) => {
     let entry = this.#overlayHandlers.get(overlayName);
     if (!entry) return undefined;
-    return entry.data;
+    return entry.overlayData;
   };
 }

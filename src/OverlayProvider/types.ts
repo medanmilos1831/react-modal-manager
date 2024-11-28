@@ -1,7 +1,7 @@
 export interface IOverlayService {
   subscribe(overlayName: string, entry: entryType): void;
   unsubscribe: (overlayName: string) => void;
-  getData: (overlayName: string) => any;
+  getOverlayData: (overlayName: string) => any;
   overlayHandler: (params: overlayHandlerParam) => void;
 }
 
@@ -14,7 +14,7 @@ export type setVisibleType = React.Dispatch<React.SetStateAction<boolean>>;
 export type overlayHandlerParam = {
   overlayName: string;
   open: boolean;
-  data?: any;
+  overlayData?: any;
 };
 
-export type entryType = { setVisible: setVisibleType; data: any };
+export type entryType = { setVisible: setVisibleType; overlayData: any };
