@@ -1,5 +1,6 @@
 import { Modal } from 'antd';
 import { useOverlay } from '../OverlayProvider';
+
 const HomePage = () => {
   const { OverlaySubscriber, overlayHandler } = useOverlay();
   return (
@@ -8,11 +9,10 @@ const HomePage = () => {
         <h1>Home Page</h1>
       </div>
       <OverlaySubscriber overlayName="pera">
-        {(data: any) => {
-          console.log('render pera', data);
+        {({ open, data }) => {
           return (
             <Modal
-              open={data.status}
+              open={open}
               onCancel={() => {
                 overlayHandler({
                   overlayName: 'pera',
@@ -27,10 +27,9 @@ const HomePage = () => {
       </OverlaySubscriber>
       <OverlaySubscriber overlayName="zika">
         {(data: any) => {
-          console.log('render zika');
           return (
             <Modal
-              open={data.status}
+              open={data.open}
               destroyOnClose
               onCancel={() => {
                 console.log('ovo se desilo');
@@ -51,11 +50,11 @@ const HomePage = () => {
           overlayHandler({
             overlayName: 'pera',
             open: true,
-            // data: {
-            //   props: {
-            //     id: 1,
-            //   },
-            // },
+            data: {
+              props: {
+                id: 1,
+              },
+            },
           });
         }}
       >

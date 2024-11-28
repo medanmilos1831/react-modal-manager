@@ -23,38 +23,29 @@ function OverlayProvider({ children }: PropsWithChildren) {
 const useOverlay = () => {
   const { service } = useContext(OverlayContext)!;
   return {
-    overlayHandler({
+    overlayHandler: service.overlayHandler,
+    OverlaySubscriber: ({
       overlayName,
-      open,
-      data,
+      children,
     }: {
       overlayName: string;
-      open: boolean;
-      data?: any;
-    }) {
-      service.overlayHandler({
-        overlayName,
-        open,
-        data: data || undefined,
-      });
-    },
-    OverlaySubscriber: ({ overlayName, children }: any) => {
+      children: (obj: { open: boolean; data: any }) => React.ReactNode;
+    }) => {
       return (
         <OverlaySubscriber
           subscribe={(handler) => {
-            service.addOverlayHandler(overlayName, handler);
+            service.subscribe(overlayName, handler);
+          }}
+          unsubscribe={() => {
+            service.unsubscribe(overlayName);
           }}
         >
-          {(data) => {
-            return (
-              <>
-                {children({
-                  status: data,
-                  data: service.getData(overlayName),
-                })}
-              </>
-            );
-          }}
+          {(data) =>
+            children({
+              open: data,
+              data: service.getData(overlayName),
+            })
+          }
         </OverlaySubscriber>
       );
     },

@@ -1,33 +1,25 @@
-import { handlerType, IOverlayService } from './types';
+import { entryType, IOverlayService, overlayHandlerParam } from './types';
 
 export class OverlayService implements IOverlayService {
-  #overlayHandlers = new Map<
-    any,
-    {
-      handler: handlerType;
-      data: any;
-    }
-  >();
+  #overlayHandlers = new Map<any, entryType>();
 
-  addOverlayHandler = (overlayName: string, handler: handlerType) => {
-    this.#overlayHandlers.set(overlayName, { handler, data: undefined });
+  subscribe = (overlayName: string, entry: entryType) => {
+    this.#overlayHandlers.set(overlayName, entry);
   };
 
-  overlayHandler = ({
-    overlayName,
-    open,
-    data,
-  }: {
-    overlayName: string;
-    open: boolean;
-    data: any;
-  }) => {
-    let obj: any = this.#overlayHandlers.get(overlayName);
-    obj.data = data;
-    obj.handler(open);
+  unsubscribe = (overlayName: string) => {
+    this.#overlayHandlers.delete(overlayName);
+  };
+
+  overlayHandler = ({ overlayName, open, data }: overlayHandlerParam) => {
+    let entry = this.#overlayHandlers.get(overlayName);
+    if (!entry) return;
+    entry.data = data;
+    entry.setVisible(open);
   };
   getData = (overlayName: string) => {
-    let { data }: any = this.#overlayHandlers.get(overlayName);
-    return data;
+    let entry = this.#overlayHandlers.get(overlayName);
+    if (!entry) return undefined;
+    return entry.data;
   };
 }
