@@ -1,7 +1,13 @@
-import { PropsWithChildren, useContext, useState } from 'react';
+import {
+  PropsWithChildren,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { OverlayContext } from './OverlayContext';
 import { OverlayService } from './OverlayService';
-import { OverlaySubscriber } from './OverlaySubscriber';
 
 function OverlayProvider({ children }: PropsWithChildren) {
   const [service, _] = useState(init);
@@ -24,26 +30,28 @@ OverlayProvider.Item = ({
   children,
 }: {
   overlayName: string;
-  children: (obj: { open: boolean; data: any }) => React.ReactNode;
+  children: (obj: { open: boolean; data: any }) => ReactNode;
 }) => {
+  const [visible, setVisible] = useState<boolean>(false);
+  const init = useRef(false);
   const { service } = useContext(OverlayContext)!;
-  return (
-    <OverlaySubscriber
-      subscribe={(handler) => {
-        service.subscribe(overlayName, handler);
-      }}
-      unsubscribe={() => {
-        service.unsubscribe(overlayName);
-      }}
-    >
-      {(data) =>
-        children({
-          open: data,
-          data: service.getOverlayData(overlayName),
-        })
-      }
-    </OverlaySubscriber>
-  );
+  if (init.current === false) {
+    service.subscribe(overlayName, {
+      setVisible,
+      overlayData: undefined,
+    });
+    init.current = true;
+  }
+
+  useEffect(() => {
+    return () => {
+      service.unsubscribe(overlayName);
+    };
+  }, []);
+  return children({
+    open: visible,
+    data: service.getOverlayData(overlayName),
+  });
 };
 
 const useOverlay = () => {

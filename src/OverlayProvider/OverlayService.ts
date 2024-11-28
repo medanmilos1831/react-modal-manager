@@ -1,3 +1,4 @@
+import { ERROR_MESSAGES } from './constants';
 import { entryType, IOverlayService, overlayHandlerParam } from './types';
 
 export class OverlayService implements IOverlayService {
@@ -17,7 +18,12 @@ export class OverlayService implements IOverlayService {
     overlayData,
   }: overlayHandlerParam) => {
     let entry = this.#overlayHandlers.get(overlayName);
-    if (!entry) return;
+    if (!entry) {
+      console.warn(
+        `Overlay ${overlayName} ${ERROR_MESSAGES.overlayDoesNotExist}`
+      );
+      return;
+    }
     entry.overlayData = overlayData;
     entry.setVisible(open);
   };
