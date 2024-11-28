@@ -25,25 +25,6 @@ const HomePage = () => {
           );
         }}
       </OverlayProvider.Item>
-      <OverlayProvider.Item overlayName="zika">
-        {(data) => {
-          return (
-            <Modal
-              open={data.open}
-              destroyOnClose
-              onCancel={() => {
-                overlayHandler({
-                  overlayName: 'zika',
-                  open: false,
-                });
-              }}
-              width={300}
-            >
-              <>zika</>
-            </Modal>
-          );
-        }}
-      </OverlayProvider.Item>
       <button
         onClick={() => {
           overlayHandler({
@@ -58,31 +39,6 @@ const HomePage = () => {
         }}
       >
         click me o pera
-      </button>
-      <button
-        onClick={() => {
-          overlayHandler({
-            overlayName: 'zika',
-            open: true,
-            overlayData: {
-              props: {
-                id: undefined,
-              },
-              open: true,
-            },
-          });
-        }}
-      >
-        click me zika
-      </button>
-      <button onClick={() => {}}>drawer</button>
-
-      <button
-        onClick={() => {
-          // close('modal');
-        }}
-      >
-        click me c
       </button>
     </div>
   );
