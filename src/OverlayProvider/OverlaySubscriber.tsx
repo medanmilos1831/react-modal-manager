@@ -1,5 +1,5 @@
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { handlerType, overlayComponentType, overlayEntityType } from './types';
+import { ReactNode, useRef, useState } from 'react';
+import { handlerType } from './types';
 
 /**
  * The `OverlaySubscriber` component is responsible for subscribing to overlay state changes
@@ -18,15 +18,11 @@ const OverlaySubscriber = ({
   children,
   subscribe,
 }: {
-  children: (state: overlayEntityType) => ReactNode;
+  children: (state: boolean) => ReactNode;
   subscribe: (handler: handlerType) => void;
 }) => {
   // State to store the current overlay entity details (inner element, config, visibility, etc.)
-  const [state, setState] = useState<overlayEntityType>({
-    overlayInnerElement: null,
-    config: null,
-    visible: false,
-  });
+  const [state, setState] = useState<boolean>(false);
 
   // Ref to track the initial render to avoid multiple subscriptions
   const init = useRef(false);
@@ -37,15 +33,15 @@ const OverlaySubscriber = ({
     init.current = true;
   }
 
-  useEffect(() => {
-    // Cleanup logic: reset overlay content when it is no longer visible
-    return () => {
-      if (state.visible && (state.config || state.overlayInnerElement)) {
-        state.config = null;
-        state.overlayInnerElement = null;
-      }
-    };
-  }, [state]); // Runs cleanup when `state` changes
+  // useEffect(() => {
+  //   // Cleanup logic: reset overlay content when it is no longer visible
+  //   return () => {
+  //     if (state.visible && (state.config || state.overlayInnerElement)) {
+  //       state.config = null;
+  //       state.overlayInnerElement = null;
+  //     }
+  //   };
+  // }, [state]); // Runs cleanup when `state` changes
 
   // Render the children component, passing the current state as props
   return <>{children(state)}</>;
