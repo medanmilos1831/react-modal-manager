@@ -1,56 +1,44 @@
-import { DrawerProps, ModalProps } from 'antd';
-import { useOverlay } from '../OverlayProvider';
-const ModalElement = ({ fname }: { fname: string }) => {
-  return <>Element</>;
-};
+import { Modal } from 'antd';
+import { OverlayProvider, useOverlay } from '../OverlayProvider';
+
 const HomePage = () => {
-  const { open, close } = useOverlay();
+  const overlayHandler = useOverlay();
   return (
     <div>
-      <span>Home page</span>
+      <div>
+        <h1>Home Page</h1>
+      </div>
+      <OverlayProvider.Item overlayName="pera">
+        {({ open }) => {
+          return (
+            <Modal
+              open={open}
+              onCancel={() => {
+                overlayHandler({
+                  overlayName: 'pera',
+                  open: false,
+                });
+              }}
+            >
+              <>pera</>
+            </Modal>
+          );
+        }}
+      </OverlayProvider.Item>
       <button
         onClick={() => {
-          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
-            closable: true,
-            onCancel(e: any) {
-              close('modal');
+          overlayHandler({
+            overlayName: 'pera',
+            open: true,
+            overlayData: {
+              props: {
+                id: 1,
+              },
             },
-            width: 700,
           });
         }}
       >
-        click me o 700
-      </button>
-      <button
-        onClick={() => {
-          open<ModalProps>('modal', <ModalElement fname="Pera" />, {
-            closable: true,
-            onCancel(e: any) {
-              close('modal');
-            },
-            width: 200,
-          });
-        }}
-      >
-        click me o 500
-      </button>
-      <button
-        onClick={() => {
-          open<DrawerProps>('drawer', <ModalElement fname="Pera" />, {
-            closable: true,
-            width: 200,
-          });
-        }}
-      >
-        drawer
-      </button>
-
-      <button
-        onClick={() => {
-          close('modal');
-        }}
-      >
-        click me c
+        click me o pera
       </button>
     </div>
   );
