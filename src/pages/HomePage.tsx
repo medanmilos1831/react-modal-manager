@@ -1,45 +1,55 @@
-import { Modal } from 'antd';
-import { OverlayProvider, useOverlay } from '../OverlayProvider';
+import { Button, Drawer } from 'antd'; // Importing Ant Design components
+import { CompanyDrawer } from 'src/overlays'; // Importing the custom CompanyDrawer component
+import { OverlayProvider, useOverlay } from '../OverlayProvider'; // Importing OverlayProvider and useOverlay hook
 
 const HomePage = () => {
-  const overlayHandler = useOverlay();
+  const overlayHandler = useOverlay(); // Using the useOverlay hook to manage overlay state
+  console.log('*****RENDER HOME*****'); // Logging render for debugging purposes
+
   return (
     <div>
       <div>
-        <h1>Home Page</h1>
+        <h1>Home Page</h1> {/* Displaying the title of the page */}
       </div>
-      <OverlayProvider.Item overlayName="pera">
-        {({ open }) => {
+
+      {/* This Item component is used to manage the visibility and state of the "homePageDrawer" overlay */}
+      <OverlayProvider.Item overlayName="homePageDrawer">
+        {({ open, overlayData, overlayHandler }) => {
           return (
-            <Modal
-              open={open}
-              onCancel={() => {
+            <Drawer
+              open={open} // Controls whether the drawer is open or closed
+              onClose={() => {
+                // Closing the drawer when the close button is clicked
                 overlayHandler({
-                  overlayName: 'pera',
-                  open: false,
+                  overlayName: 'homePageDrawer',
+                  open: false, // Setting the overlay to closed
                 });
               }}
             >
-              <>pera</>
-            </Modal>
+              {/* The CompanyDrawer component is rendered inside the Drawer with the passed overlayData */}
+              <CompanyDrawer {...overlayData} />
+            </Drawer>
           );
         }}
       </OverlayProvider.Item>
-      <button
+
+      {/* Button to trigger the opening of the "homePageDrawer" */}
+      <Button
+        type="primary" // Primary button style
         onClick={() => {
+          // Opening the "homePageDrawer" and passing the necessary data when the button is clicked
           overlayHandler({
-            overlayName: 'pera',
-            open: true,
+            overlayName: 'homePageDrawer',
+            open: true, // Setting the overlay to open
             overlayData: {
-              props: {
-                id: 1,
-              },
+              id: 1,
+              companyName: 'Sony', // Example data to be passed to the drawer
             },
           });
         }}
       >
-        click me o pera
-      </button>
+        Open Home page Drawer
+      </Button>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 /**
  * Interface for the Overlay Service, defining methods for managing overlays.
  */
-export interface IOverlayService {
+export interface IOverlayObserver {
   /**
    * Subscribes to an overlay with a given name and handler entry.
    * @param {string} overlayName - The unique name of the overlay.
@@ -36,7 +36,7 @@ export interface IOverlayContext {
   /**
    * The service instance for managing overlays.
    */
-  service: IOverlayService;
+  observer: IOverlayObserver;
 }
 
 /**

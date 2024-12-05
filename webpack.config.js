@@ -7,7 +7,7 @@ module.exports = {
     path: join(__dirname, './dist/react-modal-manager'),
   },
   devServer: {
-    port: 4200,
+    port: 4201,
     historyApiFallback: true,
   },
   plugins: [

@@ -1,13 +1,13 @@
 import { ERROR_MESSAGES } from './constants';
-import { entryType, IOverlayService, overlayHandlerParam } from './types';
+import { entryType, IOverlayObserver, overlayHandlerParam } from './types';
 
 /**
  * A service for managing overlays, providing methods for subscribing,
  * unsubscribing, handling overlay state, and retrieving overlay data.
  */
-export class OverlayService implements IOverlayService {
+export class OverlayObserver implements IOverlayObserver {
   // Private map to store overlay handlers, keyed by overlay names.
-  #overlayHandlers = new Map<any, entryType>();
+  #overlayHandlers = new Map<string, entryType>();
 
   /**
    * Subscribes to an overlay by its name and registers a handler for managing its state.
